@@ -9,6 +9,7 @@ const PORT = 4001;
 
 const app = express();
 app.set("view engine", "pug");
+app.set("views", process.cwd() + "/src/views");
 
 const logger = morgan("dev");
 app.use(logger);
