@@ -1,4 +1,5 @@
-export const trending = (req, res) => res.render("home");
+export const trending = (req, res) =>
+  res.render("home", { pageTitle: "Home", zagaimo: "감자" });
 export const search = (req, res) => res.send("Search Video");
 
 export const upload = (req, res) => res.send("Upload Video");
