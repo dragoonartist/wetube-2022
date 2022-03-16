@@ -6,11 +6,12 @@ html(lang="ko")
         //- mvp css , 임시 css
         link(rel="stylesheet" href="https://unpkg.com/mvp.css")
     body 
-        
-
-        header 
-            h1=pageTitle
         main
+            header 
+                h1=pageTitle     
+                nav 
+                    ul 
+                        block navItem
             block content
         
         include partials/footer.pug
