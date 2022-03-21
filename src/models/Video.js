@@ -1,13 +1,13 @@
 import mongoose from "mongoose";
 
 const videoSchema = mongoose.Schema({
-  title: String,
-  description: String,
-  createdAt: Date,
-  hasgtags: [{ type: String }],
+  title: { type: String, required: true, trim: true, maxLength: 80 },
+  description: { type: String, required: true, trim: true, minLength: 20 },
+  createdAt: { type: Date, required: true, default: Date.now },
+  hashtags: [{ type: String }],
   meta: {
-    views: Number,
-    rating: Number,
+    views: { type: Number, default: 0, requored: true },
+    rating: { type: Number, default: 0, requored: true },
   },
 });
 

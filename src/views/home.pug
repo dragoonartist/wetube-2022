@@ -1,14 +1,12 @@
 extends base
 include mixins/video
 
-block content 
-    
-    h2 어서와, 여기서 최근 유행하는 비디오를 볼 수 있어...Maybe?
-    each info in videos 
-        +video(info)
-    else 
-        li Sorry, 못찾았어.
-
 block navItem 
     li
         a(href="/videos/upload") Upload Video
+
+block content 
+    each video in videos 
+        +mixinVideo(video)
+    else 
+        li Sorry, 못찾았어.
