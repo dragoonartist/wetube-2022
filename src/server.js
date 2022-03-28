@@ -25,9 +25,9 @@ app.use(
   })
 );
 
-app.use((req, res, next) => {
-  console.log(req.session), next();
-});
+// app.use((req, res, next) => {
+//   console.log(req.session), next();
+// });
 
 // app.get("/add-on", (req, res, next) => {
 //   req.session.zagaimo += 1;
