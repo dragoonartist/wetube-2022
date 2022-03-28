@@ -100,16 +100,48 @@ export const finishGithubLogin = async (req, res) => {
       },
     })
   ).json();
-  const { access_token } = tokenRequest;
-  if (access_token) {
+
+  if ("access_token" in tokenRequest) {
+    const { access_token } = tokenRequest;
+    const apiUrl = "https://api.github.com";
     const userData = await (
-      await fetch("https://api.github.com/user", {
+      await fetch(`${apiUrl}/user`, {
         headers: {
           Authorization: `token ${access_token}`,
         },
       })
     ).json();
-    console.log(userData);
+    const emailData = await (
+      await fetch(`${apiUrl}/user/emails`, {
+        headers: {
+          Authorization: `token ${access_token}`,
+        },
+      })
+    ).json();
+    const emailObj = emailData.find(
+      (email) => email.primary === true && email.verified === true
+    );
+    if (!emailObj) {
+      return res.redirect("/login");
+    }
+    const existingUser = await User.findOne({ email: emailObj.email });
+    if (existingUser) {
+      req.session.loggedIn = true;
+      req.session.user = existingUser;
+      return res.redirect("/");
+    } else {
+      const newUser = await User.create({
+        email: emailObj.email,
+        username: userData.login,
+        password: "",
+        name: userData.name,
+        location: userData.location,
+        socialOnly: true,
+      });
+      req.session.loggedIn = true;
+      req.session.user = newUser;
+      return res.redirect("/");
+    }
   } else {
     return res.redirect("/login");
   }
