@@ -1,6 +1,7 @@
 import express from "express";
 import morgan from "morgan";
 import session from "express-session";
+import MongoStore from "connect-mongo";
 import rootRouter from "./routers/rootRouter";
 import userRouter from "./routers/userrouter";
 import videoRouter from "./routers/videoRouter";
@@ -18,18 +19,14 @@ app.use(express.urlencoded({ extended: true }));
 app.use(
   session({
     secret: "wendy",
-    resave: true,
-    saveUninitialized: true,
+    resave: false,
+    saveUninitialized: false,
+    store: MongoStore.create({ mongoUrl: "mongodb://127.0.0.1:27017/wetube" }),
   })
 );
 
 app.use((req, res, next) => {
-  console.log(req.session);
-  //   req.sessionStore.all((error, sessions) => {
-  //     console.log(sessions);
-  //     next();
-  //   });
-  next();
+  console.log(req.session), next();
 });
 
 // app.get("/add-on", (req, res, next) => {
