@@ -112,7 +112,7 @@ export const finishGithubLogin = async (req, res) => {
         },
       })
     ).json();
-    console.log(userData);
+
     const emailData = await (
       await fetch(`${apiUrl}/user/emails`, {
         headers: {
@@ -152,4 +152,3 @@ export const logout = (req, res) => {
   return res.redirect("/");
 };
 export const edit = (req, res) => res.send("Edit Profile");
-export const deleteProfile = (req, res) => res.send("Delete Profile");
