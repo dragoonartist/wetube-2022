@@ -15,13 +15,9 @@ html(lang="ko")
                             a(href="/") Home
                         if loggedIn
                             li 
-                                a(href="/users/logout") Logout
+                                a(href="/users/edit") Edit Profile
                             li 
-                                a(href="/profile") 
-                                    if loggedInUser.name
-                                        span=loggedInUser.name
-                                    else 
-                                        span=loggedInUser.username
+                                a(href="/users/logout") Logout
                         else 
                             li 
                                 a(href="/join") Join

@@ -7,6 +7,7 @@ import {
   postUpload,
   deleteVideo,
 } from "../controllers/videoController";
+import { protectorMiddleware } from "../middlewares";
 
 const videoRouter = express.Router();
 
@@ -14,7 +15,18 @@ const videoRouter = express.Router();
 // (regex)는 주소로 쓸 수 있는 표현을 제어한다.
 // \d+ 는 숫자만 사용 가능함.
 videoRouter.get("/:id([0-9a-f]{24})", watch);
-videoRouter.route("/:id([0-9a-f]{24})/edit").get(getEdit).post(postEdit);
-videoRouter.route("/:id([0-9a-f]{24})/delete").get(deleteVideo);
-videoRouter.route("/upload").get(getUpload).post(postUpload);
+videoRouter
+  .route("/:id([0-9a-f]{24})/edit")
+  .all(protectorMiddleware)
+  .get(getEdit)
+  .post(postEdit);
+videoRouter
+  .route("/:id([0-9a-f]{24})/delete")
+  .all(protectorMiddleware)
+  .get(deleteVideo);
+videoRouter
+  .route("/upload")
+  .all(protectorMiddleware)
+  .get(getUpload)
+  .post(postUpload);
 export default videoRouter;
