@@ -155,8 +155,60 @@ export const getEdit = (req, res) => {
   return res.render("edit-profile", { pageTitle: "Edit Profile" });
 };
 
-export const postEdit = (req, res) => {
-  return res.render("edit-profile");
+export const postEdit = async (req, res) => {
+  const {
+    session: {
+      user: { _id },
+    },
+    body: { name, email, username, location },
+  } = req;
+  const updatedUser = await User.findByIdAndUpdate(
+    _id,
+    {
+      name,
+      email,
+      username,
+      location,
+    },
+    { new: true }
+  );
+  req.session.user = updatedUser;
+  return res.redirect("/users/edit");
+};
+
+export const getChangePassword = (req, res) => {
+  return res.render("users/change-password", { pageTitle: "Change Password" });
+};
+
+export const postChangePassword = async (req, res) => {
+  const pageTitle = "Change Password";
+  const {
+    session: {
+      user: { _id },
+    },
+    body: { old_password, new_password, confirm_new_password },
+  } = req;
+  if (new_password !== confirm_new_password) {
+    return res.status(400).render("users/change-password", {
+      pageTitle,
+      errMsg: "New password is not confirmation.",
+    });
+  }
+  const user = await User.findById(_id);
+  const ok = await bcrypt.compare(old_password, user.password);
+  if (!ok) {
+    return res.status(400).render("users/change-password", {
+      pageTitle,
+      errMsg: "Current password is incorrect.",
+    });
+  }
+  console.log("curr pw", user.password);
+  console.log("new pw", new_password);
+  user.password = new_password;
+  await user.save();
+  console.log("hashed new pw", user.password);
+  // req.session.user.password = user.password;
+  return res.redirect("/users/logout");
 };
 
 export const see = (req, res) => res.send("See User");
