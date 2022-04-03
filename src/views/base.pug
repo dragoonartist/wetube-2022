@@ -17,6 +17,8 @@ html(lang="ko")
                         if loggedIn
                             li 
                                 a(href="/users/edit") Edit Profile
+                            li
+                                a(href=`/users/${loggedInUser._id}`) My Profile
                             li 
                                 a(href="/users/logout") Logout
                         else 
@@ -31,4 +33,5 @@ html(lang="ko")
             block content
         
         include partials/footer.pug
-        script(src="/static/js/main.js") 
+
+block scripts

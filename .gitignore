@@ -1,6 +1,5 @@
 /node_modules
 .env
 /uploads
-.DS_Store
 /assets
-/assets/js/main.js
+.DS_Store
