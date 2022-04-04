@@ -2,9 +2,13 @@ extends base
 include mixins/video
 
 block content 
-    form(action="", method="GET")
+    form(action="", method="GET").search__form
         input(type="text", required, name="keyword", placeholder="Search by Title")
         input(type="submit", value="Search Video")
-    div 
+    
+    div.video__grid
         each video in videos 
             +mixinVideo(video)
+        else 
+            span.empty_message Sorry, 못찾았어.
+            

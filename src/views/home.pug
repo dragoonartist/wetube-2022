@@ -3,7 +3,18 @@ include mixins/video
 
 
 block content 
-    each video in videos 
-        +mixinVideo(video)
-    else 
-        li Sorry, 못찾았어.
+    div.video__grid
+        each video in videos 
+            +mixinVideo(video)
+            +mixinVideo(video)
+            +mixinVideo(video)
+            +mixinVideo(video)
+            +mixinVideo(video)
+            +mixinVideo(video)
+            +mixinVideo(video)
+            +mixinVideo(video)
+            +mixinVideo(video)
+            +mixinVideo(video)
+            +mixinVideo(video)
+        else 
+            span.empty_message Sorry, 못찾았어.
